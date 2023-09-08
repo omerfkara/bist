@@ -2,6 +2,8 @@ import pandas as pd
 
 import os
 
+import lxml
+
 import streamlit as st
 
 folder = 'KAP/'
