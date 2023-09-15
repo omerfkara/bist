@@ -1,0 +1,6 @@
+1)Cari Oran: Dönen Varlıklar / Kısa Vadeli Yükümlülükler
+2)Asit Test Oranı (Likidite Oranı): (Dönen Varlıklar - Stoklar) / Kısa Vadeli Yükümlülükler
+3)Hazır Değerler Oranı (Nakit Oranı): Hazır Değerler/Kısa Vadeli Yabancı Kaynaklar 
+4)Karşılama Oranı: Ticari Alacaklar/Ticari Borçlar
+
+conda install -c anaconda html5lib
