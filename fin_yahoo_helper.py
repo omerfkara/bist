@@ -89,3 +89,51 @@ def al_yat(data):
         sell_price = data['Sell_Signal_price'][i]
 
     return pd.Series([balance_try, balance_stock, calc_balance_try])
+
+def MACD_Strategy(df, risk):
+    MACD_Buy=[]
+    MACD_Sell=[]
+    position=False
+
+    for i in range(0, len(df)):
+        if df['MACD_12_26_9'][i] > df['MACDs_12_26_9'][i] :
+            MACD_Sell.append(np.nan)
+            if position ==False:
+                MACD_Buy.append(df['Close'][i])
+                position=True
+            else:
+                MACD_Buy.append(np.nan)
+        elif df['MACD_12_26_9'][i] < df['MACDs_12_26_9'][i] :
+            MACD_Buy.append(np.nan)
+            if position == True:
+                MACD_Sell.append(df['Close'][i])
+                position=False
+            else:
+                MACD_Sell.append(np.nan)
+        elif position == True and df['Close'][i] < MACD_Buy[-1] * (1 - risk):
+            MACD_Sell.append(df["Close"][i])
+            MACD_Buy.append(np.nan)
+            position = False
+        elif position == True and df['Close'][i] < df['Close'][i - 1] * (1 - risk):
+            MACD_Sell.append(df["Close"][i])
+            MACD_Buy.append(np.nan)
+            position = False
+        else:
+            MACD_Buy.append(np.nan)
+            MACD_Sell.append(np.nan)
+    
+    return pd.Series([MACD_Buy, MACD_Sell])
+
+
+def MACD_color(data):
+    MACD_color = []
+    for i in range(0, len(data)):
+        if data['MACDh_12_26_9'][i] > data['MACDh_12_26_9'][i - 1]:
+            MACD_color.append(True)
+        else:
+            MACD_color.append(False)
+    return MACD_color
+
+def out(df, fileid, filename):
+    filename = 'csv/'+filename+'_'+str(fileid)+'.csv' 
+    df.to_csv(filename)
